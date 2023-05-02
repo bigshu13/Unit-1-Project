@@ -1,0 +1,52 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(45, 114, 233);
+}
+header {
+    font-size: xx-large;
+    letter-spacing: 1vmin;
+}
+
+h1 {
+    font-size: ;
+    color:rgb(216, 166, 90);
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(8, 10vmin);
+    grid-template-rows: repeat(8, 10vmin);
+    border:.5vmin solid blue ;
+}
+
+#board > div {
+    border-radius: 0%;
+    border: .3vmin solid black;
+}
+
+button {
+    color: greenyellow;
+    background-color: black;
+}
+button:hover {
+    color: greenyellow;
+    background-color: rgb(72, 72, 72);
+    cursor: pointer;
+}
+ 
+.light {
+    background-color: red;
+}
+
+.dark {
+    background-color: black;
+}

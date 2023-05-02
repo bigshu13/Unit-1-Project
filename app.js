@@ -14,13 +14,34 @@
 // make sure pieces cant go to red boxes. 
 
 /*-----Constants----*/
-
+const COLORS = {
+    '0' : 'black',
+    '-1' : 'red',
+    '1' : 'white',
+    '2' : 'blue'
+};
 
 /*----State Variables--- */
-
+let turn  // this is going to be 1 or 2
+let board  // 2D array of 8 arrays with 8 values inside
+let winner  // this will be set to null, 1, 2 or 'T'(tie)
 
 /*---cached elements---- */
-
+const turnEl = document.querySelector('h1');
+const playAgainBtn = document.querySelector('button');
+const seppukuBtn = document.querySelector('button');
 
 /*---functions---- */
+init();
+
+// function init() {
+   // for(i = 0; i < 64; i++) {
+      // const box = document.createElement('div');
+    //   el.div = divClass === "odd" || "even";
+  //  }
+//}
+
+  
+    
+       
 
