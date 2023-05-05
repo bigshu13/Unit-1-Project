@@ -32,7 +32,7 @@ const playAgainBtn = document.querySelector('button');
 const seppukuBtn = document.querySelector('button');
 
 /*---functions---- */
-init();
+// init();
 
 // function init() {
    // for(i = 0; i < 64; i++) {
@@ -41,7 +41,6 @@ init();
   //  }
 //}
 
-  
-    
+ 
        
 
