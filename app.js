@@ -20,16 +20,33 @@ const COLORS = {
     '1' : 'white',
     '2' : 'blue'
 };
+// board representation on backend. Got idea from https://levelup.gitconnected.com/creating-a-board-game-checkers-with-javascript-ecd562f985c2
+const boardRep = [
+    null, 0, null, 1, null, 2, null, 3,
+    4, null, 5, null, 6, null, 7, null, 
+    null, 8, null, 9, null, 10, null, 11,
+    null, null, null, null, null ,null ,null, null,
+    null, null, null, null, null, null, null, null,
+    12, null, 13, null, 14, null, 15, null,
+    null, 16, null, 17, null, 18, null, 19,
+    20, null, 21, null, 22, null, 23, null
+]
+
 
 /*----State Variables--- */
-let turn  // this is going to be 1 or 2
+let turn = true; // this is going to be 1 or 2
 let board  // 2D array of 8 arrays with 8 values inside
 let winner  // this will be set to null, 1, 2 or 'T'(tie)
+let whiteScore = 12; // these will keep score of the amount of pieces left.
+let blueScore = 12; // when it equals 0 it shows winner
+let playerPieces;
 
 /*---cached elements---- */
 const turnEl = document.querySelector('h1');
 const playAgainBtn = document.querySelector('button');
 const seppukuBtn = document.querySelector('button');
+let whitePieces = document.querySelectorAll('p')
+let bluePieces = document.querySelectorAll('p')
 
 /*---functions---- */
 // init();
