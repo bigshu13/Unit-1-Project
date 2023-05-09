@@ -16,9 +16,7 @@
 /*-----Constants----*/
 const COLORS = {
     '0' : 'black',
-    '-1' : 'red',
-    '1' : 'white',
-    '2' : 'blue'
+    '-1' : 'red'
 };
 // board representation on backend. Got idea from https://levelup.gitconnected.com/creating-a-board-game-checkers-with-javascript-ecd562f985c2
 const boardRep = [
@@ -41,13 +39,34 @@ let whiteScore = 12; // these will keep score of the amount of pieces left.
 let blueScore = 12; // when it equals 0 it shows winner
 let playerPieces;
 
+let selectedPiece = {
+    pieceId: -1,
+    indexOfBoardPiece: -1,
+    isKing: false,
+    seventhSpace: false,
+    ninthSpace: false,
+    fourteenthSpace: false, 
+    eighteenthSpace: false,
+    minusSeventhSpace: false,
+    minusNinthSpace: false,
+    minusFourteenthSpace: false,
+    minusEighteenthSpace: false
+}
 /*---cached elements---- */
 const turnEl = document.querySelector('h1');
-const playAgainBtn = document.querySelector('button');
-const seppukuBtn = document.querySelector('button');
+const playAgainBtn = document.querySelector('.myButton');
+const seppukuBtn = document.getElementById('#iQuit');
 let whitePieces = document.querySelectorAll('p')
 let bluePieces = document.querySelectorAll('p')
 
+/*----event listeners-----*/
+playAgainBtn.addEventListener("click", () => {
+alert('i am working');
+});
+
+seppukuBtn.addEventListener("click", () => {
+    alert('still aint working');
+});
 /*---functions---- */
 // init();
 
@@ -57,7 +76,17 @@ let bluePieces = document.querySelectorAll('p')
     //   el.div = divClass === "odd" || "even";
   //  }
 //}
-
+function givePiecesEventListeners () {
+    if (turn) {
+        for (let i = 0; i < whitePieces.length; i++) {
+            whitePieces[i].addEventListener("click", getPlayerPieces);
+        }
+    } else {
+        for (let i = 0; i < bluePieces.length; i++) {
+            bluePieces[i].addEventListener("click", getPlayerPieces);
+        }
+    }
+}
  
        
 

@@ -70,5 +70,13 @@ button:hover {
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
-    border: .4vmin solid gray;
+    border: .4vmin solid gray; 
+}
+
+.king.white-piece {
+    background-color: bisque;
+}
+
+.king.blue-piece {
+    background-color: rgb(2, 109, 247);
 }
