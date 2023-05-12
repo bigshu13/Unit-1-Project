@@ -51,7 +51,7 @@ button:hover {
     background-color: black;
 }
 
-.white-piece {
+.whitePiece {
     height: 60px;
     width: 60px;
     border-radius: 50px;
@@ -62,7 +62,7 @@ button:hover {
     border: .4vmin solid gray;
 }
 
-.blue-piece {
+.bluePiece {
     height: 60px;
     width: 60px;
     border-radius: 50px;
@@ -73,10 +73,10 @@ button:hover {
     border: .4vmin solid gray; 
 }
 
-.king.white-piece {
+.king.whitePiece {
     background-color: bisque;
 }
 
-.king.blue-piece {
+.king.bluePiece {
     background-color: rgb(2, 109, 247);
 }

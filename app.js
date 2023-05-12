@@ -16,7 +16,9 @@
 /*-----Constants----*/
 const COLORS = {
     '0' : 'black',
-    '-1' : 'red'
+    '-1' : 'red',
+    '1' : 'white',
+    '2' : 'blue'
 };
 // board representation on backend. Got idea from https://levelup.gitconnected.com/creating-a-board-game-checkers-with-javascript-ecd562f985c2
 const boardRep = [
@@ -28,12 +30,12 @@ const boardRep = [
     12, null, 13, null, 14, null, 15, null,
     null, 16, null, 17, null, 18, null, 19,
     20, null, 21, null, 22, null, 23, null
-]
+];
 
 
 /*----State Variables--- */
 let turn = true; // this is going to be 1 or 2
-let board  // 2D array of 8 arrays with 8 values inside
+//let board  // 2D array of 8 arrays with 8 values inside
 let winner  // this will be set to null, 1, 2 or 'T'(tie)
 let whiteScore = 12; // these will keep score of the amount of pieces left.
 let blueScore = 12; // when it equals 0 it shows winner
@@ -55,27 +57,20 @@ let selectedPiece = {
 /*---cached elements---- */
 const turnEl = document.querySelector('h1');
 const playAgainBtn = document.querySelector('.myButton');
-const seppukuBtn = document.getElementById('#iQuit');
-let whitePieces = document.querySelectorAll('p')
-let bluePieces = document.querySelectorAll('p')
-
+const seppukuBtn = document.getElementById('iQuit');
+let whitePieces = document.querySelectorAll('.whitePiece');
+let bluePieces = document.querySelectorAll('.bluePiece');
+const cells = boardRep;
 /*----event listeners-----*/
 playAgainBtn.addEventListener("click", () => {
-alert('i am working');
+alert('i am working')
 });
 
-seppukuBtn.addEventListener("click", () => {
+document.getElementById('iQuit').addEventListener("click", () => {
     alert('still aint working');
 });
 /*---functions---- */
-// init();
-
-// function init() {
-   // for(i = 0; i < 64; i++) {
-      // const box = document.createElement('div');
-    //   el.div = divClass === "odd" || "even";
-  //  }
-//}
+//gives pieces an event listener when clicked
 function givePiecesEventListeners () {
     if (turn) {
         for (let i = 0; i < whitePieces.length; i++) {
@@ -88,5 +83,31 @@ function givePiecesEventListeners () {
     }
 }
  
-       
+function getPlayerPieces () {
+    if (turn) {
+        playerPieces = whitePieces;
+    } else {
+        playerPieces = bluePieces;
+    }
+        removeCellOnClick();
+        resetBorder();
+}
+//loops through board then removes click when i click on another piece      
+function removeCellOnClick () {
+    for(i = 0; i < boardRep.length; i++) {
+        boardRep[i].removeAttribute("click");
+    }
+}
+//reset color border of piece when not selected
+function resetBorder () {
+    for(i = 0; i < playerPieces.length; i++) {
+        playerPieces[i].style.border = "3px solid yellow";
+    }
+       // resetSelectedPieceProperties();
+        //getSelectedPieces();
+}
 
+function renderControls() {
+    playAgainBtn.style.visibility = winner ? 'visible' : 'hidden';
+}
+givePiecesEventListeners();
