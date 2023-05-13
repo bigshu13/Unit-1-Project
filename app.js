@@ -68,11 +68,11 @@ let bluePieces = document.querySelectorAll('.bluePiece');
 //const cells = boardRep;
 /*----event listeners-----*/
 playAgainBtn.addEventListener("click", () => {
-alert('i am working')
+alert('Run that back!!')
 });
 
 document.getElementById('iQuit').addEventListener("click", () => {
-    alert('still aint working');
+    alert('I have brought great shame to my Family. I surrender!');
 });
 /*---functions---- */
 //gives pieces an event listener when clicked
