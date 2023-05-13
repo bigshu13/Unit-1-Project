@@ -143,6 +143,7 @@ function isPieceKing() {
 }
 //checks which spaces piece can move too
 function getAvailableSpaces() {
+    let cells = boardRep
     if(boardRep[selectedPiece.indexOfBoardPiece - 7] === null &&
         cells[selectedPiece.indexOfBoardPiece - 7].classList.contains('translucent') !== true) {
         selectedPiece.minusseventhSpace = true;
@@ -196,15 +197,15 @@ function checkPieceConditions (){
     }
 }
 //gives piece a gree highlight when selected
-givePieceBorder() {
-    if (selectedPiece.seventhSpace || selectedPiece.ninthSpace || selectedPiece.fourteenthSpace || selectedPiece.eighteenthSpace||
-        selectedPiece.minusSeventhSpace || selectedPiece.minusNinthSpace || selectedPiece.minusFourteenthSpace || selectedPiece.minusEighteenthSpace) {
-            document.getElementById(selectedPiece.pieceId).style.border = "3px solid green";
-            giveCellsOnClick();
-        } else {
-            return;
-        }
-    }
+//givePieceBorder() {
+  //  if (selectedPiece.seventhSpace || selectedPiece.ninthSpace || selectedPiece.fourteenthSpace || selectedPiece.eighteenthSpace||
+    //    selectedPiece.minusSeventhSpace || selectedPiece.minusNinthSpace || selectedPiece.minusFourteenthSpace || selectedPiece.minusEighteenthSpace) {
+      //      document.getElementById(selectedPiece.pieceId).style.border = "3px solid green";
+        //    giveCellsOnClick();
+        //} else {
+          //  return;
+        //}
+    //}
 //gives cells a onClick attribute
 function giveCellsOnClick() {
     if (selectedPiece.seventhSpace) {
@@ -255,12 +256,12 @@ function makeMove(number) {
     }
 }
 
-    let indexOfPiece = selectedPiece.indexOfBoardPiece
-    if(number === 14 || number === -14 || number === 18 || number === -18) {
-        changeData(indexOfPiece, indexOfPiece + number, indexOfPiece + number / 2);
-    } else {
-        changeData(indexOfPiece, indexOfPiece + number);
-    }
+   // let indexOfPiece = selectedPiece.indexOfBoardPiece
+    //if(number === 14 || number === -14 || number === 18 || number === -18) {
+      //  changeData(indexOfPiece, indexOfPiece + number, indexOfPiece + number / 2);
+    //} else {
+      //  changeData(indexOfPiece, indexOfPiece + number);
+    //}
 //changes the board states data on the backend
 function changeData(indexOfBoardPiece, modifiedIndex, removePiece) {
     boardRep[indexOfBoardPiece] = null;
