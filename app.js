@@ -54,13 +54,18 @@ let selectedPiece = {
     minusFourteenthSpace: false,
     minusEighteenthSpace: false
 }
+
+let findPiece = function (pieceId) {
+    let parsed = parseInt(pieceId);
+    return boardRep.indexOf(parsed);
+};
 /*---cached elements---- */
 const turnEl = document.querySelector('h1');
 const playAgainBtn = document.querySelector('.myButton');
 const seppukuBtn = document.getElementById('iQuit');
 let whitePieces = document.querySelectorAll('.whitePiece');
 let bluePieces = document.querySelectorAll('.bluePiece');
-const cells = boardRep;
+//const cells = boardRep;
 /*----event listeners-----*/
 playAgainBtn.addEventListener("click", () => {
 alert('i am working')
@@ -82,7 +87,7 @@ function givePiecesEventListeners () {
         }
     }
 }
- 
+ //holds how many pieces are left for player
 function getPlayerPieces () {
     if (turn) {
         playerPieces = whitePieces;
@@ -94,8 +99,9 @@ function getPlayerPieces () {
 }
 //loops through board then removes click when i click on another piece      
 function removeCellOnClick () {
-    for(i = 0; i < boardRep.length; i++) {
-        boardRep[i].removeAttribute("click");
+    let cells = document.getElementById('board')
+    for(i = 0; i < cells.length; i++) {
+        cells.removeAttribute('onClick');
     }
 }
 //reset color border of piece when not selected
@@ -103,10 +109,228 @@ function resetBorder () {
     for(i = 0; i < playerPieces.length; i++) {
         playerPieces[i].style.border = "3px solid yellow";
     }
-       // resetSelectedPieceProperties();
-        //getSelectedPieces();
+        resetSelectedPieceProperties();
+        getSelectedPieces();
 }
 
+function resetSelectedPieceProperties () {
+    selectedPiece.pieceId = -1;
+    selectedPiece.indexOfBoardPiece = -1;
+    selectedPiece.isKing = false;
+    selectedPiece.seventhSpace = false;
+    selectedPiece.ninthSpace = false;
+    selectedPiece.fourteenthSpace = false;
+    selectedPiece.eighteenthSpace = false;
+    selectedPiece.minusSeventhSpace = false;
+    selectedPiece.minusNinthSpace = false;
+    selectedPiece.minusFourteenthSpace = false;
+    selectedPiece.minusEighteenthSpace = false;
+}
+//gets Id and index of board cell its on
+function getSelectedPieces() {
+    selectedPiece.pieceId = parseInt(event.target.id);
+    selectedPiece.indexOfBoardPiece = findPiece(selectedPiece.pieceId);
+    isPieceKing();
+}
+//checks if the selected piece is a king or not
+function isPieceKing() {
+    if (document.getElementById(selectedPiece.pieceId).classList.contains('king')) {
+        selectedPiece.isKing = true;
+    } else {
+        selectedPiece.isKing = false;
+    }
+    getAvailableSpaces();
+}
+//checks which spaces piece can move too
+function getAvailableSpaces() {
+    if(boardRep[selectedPiece.indexOfBoardPiece - 7] === null &&
+        cells[selectedPiece.indexOfBoardPiece - 7].classList.contains('translucent') !== true) {
+        selectedPiece.minusseventhSpace = true;
+    }
+    if(boardRep[selectedPiece.indexOfBoardPiece - 9] === null &&
+        cells[selectedPiece.indexOfBoardPiece - 9].classList.contains('translucent') !== true) {
+        selectedPiece.minusninthSpace = true;
+    }
+    if(boardRep[selectedPiece.indexOfBoardPiece + 7] === null &&
+        cells[selectedPiece.indexOfBoardPiece + 7].classList.contains('translucent') !== true) {
+        selectedPiece.seventhSpace = true;
+    }
+    if(boardRep[selectedPiece.indexOfBoardPiece + 9] === null &&
+        cells[selectedPiece.indexOfBoardPiece + 9].classList.contains('translucent') !== true) {
+        selectedPiece.seventhSpace = true;        
+    }
+    checkAvailableJumpSpaces();
+}
+//checks if pieces can make jumps
+function checkAvailableJumpSpaces(){
+    if (turn) {
+        if (boardRep[selectedPiece.indexOfBoardPiece + 14] === null &&
+            cells[selectedPiece.indexOfBoardPiece + 14].classList.contains('translucent') !== true &&
+            boardRep[selectedPiece.indexOfBoardPiece + 7] >= 12) {
+                selectedPiece.fourteenthSpace = true;
+            }
+    } else {
+        if (boardRep[selectedPiece.indexOfBoardPiece + 14] === null &&
+            cells[selectedPiece.indexOfBoardPiece + 14].classList.contains('translucent') !== true &&
+            boardRep[selectedPiece.indexOfBoardPiece + 7] < 12 && boardRep[selectedPiece.indexOfBoardPiece + 7] !== null) {
+                selectedPiece.fourteenthSpace = true;}
+    }
+}
+//restricts movement of king piece
+function checkPieceConditions (){
+    if(selectedPiece.isKing) {
+        givePieceBorder();
+    } else {
+        if (turn) {
+            selectedPiece.minusSeventhSpace = false;
+            selectedPiece.minusNinthSpace = false;
+            selectedPiece.minusfourteenthSpace = false;
+            selectedPiece.minuseighteenthSpace = false;
+        } else {
+            selectedPiece.seventhSpace = false;
+            selectedPiece.ninthSpace = false;
+            selectedPiece.fourteenthSpace = false;
+            selectedPiece.eighteenthSpace = false;
+        }
+        givePieceBorder();
+    }
+}
+//gives piece a gree highlight when selected
+givePieceBorder() {
+    if (selectedPiece.seventhSpace || selectedPiece.ninthSpace || selectedPiece.fourteenthSpace || selectedPiece.eighteenthSpace||
+        selectedPiece.minusSeventhSpace || selectedPiece.minusNinthSpace || selectedPiece.minusFourteenthSpace || selectedPiece.minusEighteenthSpace) {
+            document.getElementById(selectedPiece.pieceId).style.border = "3px solid green";
+            giveCellsOnClick();
+        } else {
+            return;
+        }
+    }
+//gives cells a onClick attribute
+function giveCellsOnClick() {
+    if (selectedPiece.seventhSpace) {
+        cells[selectedPiece.indexOfBoardPiece + 7].setAttribute('onClick', 'makeMove(7)');
+    }
+    if (selectedPiece.ninthSpace) {
+        cells[selectedPiece.indexOfBoardPiece + 9].setAttribute('onClick', 'makeMove(9)');
+    }
+    if (selectedPiece.fourteenthSpace) {
+        cells[selectedPiece.indexOfBoardPiece + 14].setAttribute('onClick', 'makeMove(14)');
+    }
+    if (selectedPiece.eighteenthSpace) {
+        cells[selectedPiece.indexOfBoardPiece + 18].setAttribute('onClick', 'makeMove(18)');
+    }
+    if (selectedPiece.minusSeventhSpace) {
+        cells[selectedPiece.indexOfBoardPiece - 7].setAttribute('onClick', 'makeMove(-7)');
+    }
+    if (selectedPiece.minusNinthSpace) {
+        cells[selectedPiece.indexOfBoardPiece - 9].setAttribute('onClick', 'makeMove(-9)');
+    }
+    if (selectedPiece.minusFourteenthSpace) {
+        cells[selectedPiece.indexOfBoardPiece - 14].setAttribute('onClick', 'makeMove(-14)');
+    }
+    if (selectedPiece.minusEighteenthSpace) {
+        cells[selectedPiece.indexOfBoardPiece - 18].setAttribute('onClick', 'makeMove(-18)');
+    }
+}
+
+function makeMove(number) {
+    document.getElementById(selectedPiece.pieceId).remove();
+    cells[selectedPiece.indexOfBoardPiece].innerHTML = "";
+    if (turn) {
+        if(selectedPiece.isKing) {
+        cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<p class = "whitePiece king" id = "${selectedPiece.pieceId}"></p>`;
+        whitePieces = document.querySelectorAll('p');
+        } else {
+            cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<p class = "whitePiece" id = "${selectedPiece.pieceId}"></p>`;
+            whitePieces = document.querySelectorAll('p');   
+        }
+        } else {
+            if(selectedPiece.isKing) {
+                cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<p class = "bluePiece king" id = "${selectedPiece.pieceId}"></p>`;
+                bluePieces = document.querySelectorAll('p');
+      } else {
+        cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<p class = "bluePiece" id = "${selectedPiece.pieceId}"></p>`;
+        bluePieces = document.querySelectorAll('p'); 
+      }
+    }
+}
+
+    let indexOfPiece = selectedPiece.indexOfBoardPiece
+    if(number === 14 || number === -14 || number === 18 || number === -18) {
+        changeData(indexOfPiece, indexOfPiece + number, indexOfPiece + number / 2);
+    } else {
+        changeData(indexOfPiece, indexOfPiece + number);
+    }
+//changes the board states data on the backend
+function changeData(indexOfBoardPiece, modifiedIndex, removePiece) {
+    boardRep[indexOfBoardPiece] = null;
+    boardRep[modifiedIndex] = parseInt(selectedPiece.pieceId);
+    if (turn && selectedPiece.pieceId < 12 && modifiedIndex >= 57) {
+        document.getElementById(selectedPiece.pieceId).classList.add("king")
+    }
+    if (turn === false && selectedPiece.pieceId >= 12 && modifiedIndex <= 7) {
+        document.getElementById(selectedPiece.pieceId).classList.add("king");
+    }
+    if (removePiece) {
+        boardRep[removePiece] = null;
+        if (turn && selectedPiece.pieceId < 12) {
+            cells[removePiece].innerHTML = "";
+            whiteScore--
+        }
+        if (turn === false && selectedPiece.pieceId >= 12) {
+            cells[removePiece].innerHTML = "";
+            blueScore--
+        }
+    }
+    resetSelectedPieceProperties();
+    removeCellOnClick();
+    removeEventListener();
+}
+//removes onclick event listener for pieces
+function removeEventListener() {
+    if (turn) {
+        for (let i = 0; i < whitePieces.length; i++) {
+            whitePieces[i].removeEventListener("click", getPlayerPieces);
+        }
+     }  else {
+        for (let i = 0; i < bluePieces.length; i++) {
+           bluePieces[i].removeEventListener("click", getPlayerPieces);
+         }
+    }
+    checkForWin();
+}
+//Checks who won by counting the player score
+function checkForWin () {
+    if (whiteScore === 0) {
+        for (let i = 0; i < whiteTurnText.length; i++) {
+        whiteTurnText.style.color = "black";
+        whiteTurnText.textContent = "White WINS!";
+    }
+} else if (blueScore === 0) {
+        for (let i = 0; i < blueTurnText.length; i++) {
+        blueTurnText.style.color = "black";
+        blueTurnText.textContent = "Blue WINS!";
+    }
+}    
+    changePlayer();
+    }
+//suppose to switch players turn
+function changePlayer() {
+    if (turn) {
+        turn = false;
+        for(let i = 0; i < whiteTurnText.length; i++) {
+            whiteTurnText[i].style.color = "lightgrey";
+            blueTurnText[i].style.color = "black"
+        }
+    } else {
+        turn = true;
+        for(let i = 0; i < blueTurnText.length; i++) {
+            blueTurnText[i].style.color = "lightgrey";
+            whiteTurnText[i].style.color = "black"
+        }
+    }
+    givePiecesEventListeners();
+}
 function renderControls() {
     playAgainBtn.style.visibility = winner ? 'visible' : 'hidden';
 }
